@@ -1,5 +1,5 @@
 
-var Analytics = require('analytics.js').constructor;
+var Analytics = require('analytics.js-core').constructor;
 var integration = require('analytics.js-integration');
 var tester = require('analytics.js-integration-tester');
 var AdWords = require('../lib/');
