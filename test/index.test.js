@@ -39,6 +39,12 @@ describe('AdWords', function() {
       .mapping('events'));
   });
 
+  describe('loading', function() {
+    it('should load', function(done) {
+      analytics.load(adwords, done);
+    });
+  });
+
   describe('after loading', function() {
     beforeEach(function(done) {
       analytics.once('ready', done);
