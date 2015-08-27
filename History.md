@@ -1,4 +1,9 @@
 
+1.0.5 / 2015-08-27
+==================
+
+  * add check for google_trackConversion in loaded function.
+
 1.0.4 / 2015-06-30
 ==================
 
