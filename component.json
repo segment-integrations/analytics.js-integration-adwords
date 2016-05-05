@@ -7,11 +7,11 @@
   "main": "lib/index.js",
   "dependencies": {
     "component/each": "0.0.1",
-    "segmentio/analytics.js-integration": "^1.0.0"
+    "segmentio/analytics.js-integration": "^1.1.0"
   },
   "development": {
-    "segmentio/analytics.js-core": "^2.10.0",
-    "segmentio/analytics.js-integration-tester": "1.4.x",
+    "segmentio/analytics.js-core": "^2.12.0",
+    "segmentio/analytics.js-integration-tester": "^1.5.0",
     "segmentio/clear-env": "0.2.x"
   }
 }
