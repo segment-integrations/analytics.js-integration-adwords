@@ -76,6 +76,21 @@ describe('AdWords', function() {
           google_remarketing_only: true
         });
       });
+
+      it('should send the optional params if present in the window object', function(){
+        window.google_tag_params = {
+          dynx_itemid: ['1'],
+          dynx_pagetype: 'offerdetail',
+          dynx_totalvalue: '42'
+        };
+        adwords.options.remarketing = true;
+        analytics.page();
+        analytics.called(window.google_trackConversion, {
+          google_conversion_id: options.conversionId,
+          google_custom_params: window.google_tag_params,
+          google_remarketing_only: true
+        });
+      });
     });
 
     describe('#track', function() {
