@@ -73,7 +73,13 @@ describe('AdWords', function() {
         analytics.page();
         analytics.called(window.google_trackConversion, {
           google_conversion_id: options.conversionId,
-          google_custom_params: {},
+          google_custom_params: {
+            path: window.location.pathname,
+            referrer: document.referrer,
+            search: '',
+            title: '',
+            url: window.location.href
+          },
           google_remarketing_only: true
         });
       });
@@ -132,18 +138,18 @@ describe('AdWords', function() {
         });
       });
 
-      it('should always send remarketing_only false', function() {
+      it('should support remarketing if enabled', function() {
         adwords.options.remarketing = true;
-        analytics.track('login', { revenue: 90 });
+        analytics.track('login', { revenue: 90, custom: 'summer sixteen' });
         analytics.called(window.google_trackConversion, {
           google_conversion_id: options.conversionId,
-          google_custom_params: {},
+          google_custom_params: { custom: 'summer sixteen' },
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
           google_conversion_label: options.events.login,
           google_conversion_value: 90,
-          google_remarketing_only: false
+          google_remarketing_only: true
         });
       });
     });
