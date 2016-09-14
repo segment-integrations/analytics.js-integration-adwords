@@ -83,11 +83,36 @@ describe('AdWords', function() {
           google_remarketing_only: true
         });
       });
+
+      it('should load remarketing with page props and window.google_custom_params', function() {
+        adwords.options.remarketing = true;
+        window.google_custom_params = {
+          dynx_itemid: ['1'],
+          dynx_pagetype: 'offerdetail',
+          dynx_totalvalue: '42'
+        };
+        analytics.page();
+        analytics.called(window.google_trackConversion, {
+          google_conversion_id: options.conversionId,
+          google_custom_params: {
+            path: window.location.pathname,
+            referrer: document.referrer,
+            search: '',
+            title: '',
+            url: window.location.href,
+            dynx_itemid: ['1'],
+            dynx_pagetype: 'offerdetail',
+            dynx_totalvalue: '42'
+          },
+          google_remarketing_only: true
+        });
+      });
     });
 
     describe('#track', function() {
       beforeEach(function() {
         analytics.stub(window, 'google_trackConversion');
+        delete window.google_custom_params;
       });
 
       it('should not send if event is not defined', function() {
@@ -144,6 +169,31 @@ describe('AdWords', function() {
         analytics.called(window.google_trackConversion, {
           google_conversion_id: options.conversionId,
           google_custom_params: { custom: 'summer sixteen' },
+          google_conversion_language: 'en',
+          google_conversion_format: '3',
+          google_conversion_color: 'ffffff',
+          google_conversion_label: options.events.login,
+          google_conversion_value: 90,
+          google_remarketing_only: true
+        });
+      });
+
+      it('should send custom params from window with properties for remarketing', function() {
+        window.google_custom_params = {
+          dynx_itemid: ['1'],
+          dynx_pagetype: 'offerdetail',
+          dynx_totalvalue: '42'
+        };
+        adwords.options.remarketing = true;
+        analytics.track('login', { revenue: 90, custom: 'summer sixteen' });
+        analytics.called(window.google_trackConversion, {
+          google_conversion_id: options.conversionId,
+          google_custom_params: { 
+            custom: 'summer sixteen',
+            dynx_itemid: ['1'],
+            dynx_pagetype: 'offerdetail',
+            dynx_totalvalue: '42'
+          },
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
