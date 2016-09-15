@@ -24,6 +24,7 @@
   "homepage": "https://github.com/segment-integrations/analytics.js-integration-adwords#readme",
   "dependencies": {
     "@ndhoule/each": "^2.0.1",
+    "@ndhoule/extend": "^2.0.0",
     "@segment/analytics.js-integration": "^2.1.0"
   },
   "devDependencies": {
