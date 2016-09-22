@@ -1,5 +1,5 @@
 {
-  "name": "@segment/analytics.js-integration-adwords",
+  "name": "@astronomerio/analytics.js-integration-adwords",
   "description": "The Adwords analytics.js integration.",
   "version": "2.1.0",
   "keywords": [
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/segment-integrations/analytics.js-integration-adwords.git"
+    "url": "git+https://github.com/astronomer-integrations/analytics.js-integration-adwords.git"
   },
-  "author": "Segment <friends@segment.com>",
+  "author": "Astronomer <info@astronomer.io>",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/segment-integrations/analytics.js-integration-adwords/issues"
+    "url": "https://github.com/astronomer-integrations/analytics.js-integration-adwords/issues"
   },
-  "homepage": "https://github.com/segment-integrations/analytics.js-integration-adwords#readme",
+  "homepage": "https://github.com/astronomer-integrations/analytics.js-integration-adwords#readme",
   "dependencies": {
     "@ndhoule/each": "^2.0.1",
     "@segment/analytics.js-integration": "^2.1.0"
