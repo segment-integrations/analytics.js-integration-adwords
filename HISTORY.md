@@ -1,4 +1,9 @@
 
+2.2.0 / 2016-11-15
+==================
+
+  * Prevent Adwords from crashing due to adblockers
+
 2.1.1 / 2016-09-22
 ==================
 
