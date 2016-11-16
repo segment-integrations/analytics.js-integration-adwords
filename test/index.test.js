@@ -61,21 +61,36 @@ describe('AdWords', function() {
       it('should not load remarketing if option is not on', function() {
         adwords.options.remarketing = false;
         analytics.page();
-        analytics.called(window.google_trackConversion, {
+        analytics.calledOnce(window.google_trackConversion);
+        analytics.deepEqual(window.google_trackConversion.args[0], [{
           google_conversion_id: options.conversionId,
           google_custom_params: {},
           google_remarketing_only: false
-        });
+        }]);
       });
 
-      it('should load remarketing if option is on', function() {
+      it('should fire additional remarketing tag if option is on', function() {
         adwords.options.remarketing = true;
         analytics.page();
-        analytics.called(window.google_trackConversion, {
+        analytics.calledTwice(window.google_trackConversion);
+        // fire conversion tag first
+        analytics.deepEqual(window.google_trackConversion.args[0], [{
           google_conversion_id: options.conversionId,
           google_custom_params: {},
+          google_remarketing_only: false 
+        }]);
+        // then fire remarketing with props
+        analytics.deepEqual(window.google_trackConversion.args[1], [{
+          google_conversion_id: options.conversionId,
+          google_custom_params: {
+            path: window.location.pathname,
+            referrer: document.referrer,
+            search: '',
+            title: '',
+            url: window.location.href
+          },
           google_remarketing_only: true
-        });
+        }]);
       });
     });
 
@@ -84,12 +99,12 @@ describe('AdWords', function() {
         analytics.stub(window, 'google_trackConversion');
       });
 
-      it('should not send if event is not defined', function() {
+      it('should not send any tags if event is not defined', function() {
         analytics.track('toString', {});
         analytics.didNotCall(window.google_trackConversion);
       });
 
-      it('should send event if it is defined', function() {
+      it('should send conversion tag if event is defined', function() {
         analytics.track('signup', {});
         analytics.called(window.google_trackConversion, {
           google_conversion_id: options.conversionId,
@@ -132,7 +147,7 @@ describe('AdWords', function() {
         });
       });
 
-      it('should always send remarketing_only false', function() {
+      it('should always send google_remarketing_only false for conversion tags', function() {
         adwords.options.remarketing = true;
         analytics.track('login', { revenue: 90 });
         analytics.called(window.google_trackConversion, {
@@ -145,6 +160,43 @@ describe('AdWords', function() {
           google_conversion_value: 90,
           google_remarketing_only: false
         });
+      });
+
+      it('should send only the conversion tag if remarketing is false', function() {
+        adwords.options.remarketing = false;
+        analytics.track('login', { revenue: 90 });
+        analytics.calledOnce(window.google_trackConversion);
+        analytics.deepEqual(window.google_trackConversion.args[0], [{
+          google_conversion_id: options.conversionId,
+          google_custom_params: {},
+          google_conversion_language: 'en',
+          google_conversion_format: '3',
+          google_conversion_color: 'ffffff',
+          google_conversion_label: options.events.login,
+          google_conversion_value: 90,
+          google_remarketing_only: false
+        }]);
+      });
+
+      it('should send both conversion and remarketing tag if remarketing is true', function() {
+        adwords.options.remarketing = true;
+        analytics.track('login', { revenue: 90, hello: 'foo' });
+        analytics.calledTwice(window.google_trackConversion);
+        analytics.deepEqual(window.google_trackConversion.args[0], [{
+          google_conversion_id: options.conversionId,
+          google_custom_params: { hello: 'foo' },
+          google_conversion_language: 'en',
+          google_conversion_format: '3',
+          google_conversion_color: 'ffffff',
+          google_conversion_label: options.events.login,
+          google_conversion_value: 90,
+          google_remarketing_only: false
+        }]);
+        analytics.deepEqual(window.google_trackConversion.args[1], [{
+          google_conversion_id: options.conversionId,
+          google_custom_params: { hello: 'foo' },
+          google_remarketing_only: true
+        }]);
       });
     });
   });
