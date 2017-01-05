@@ -178,6 +178,17 @@ describe('AdWords', function() {
         }]);
       });
 
+      it('should send only the remarketing tag if no conversions are mapped but is whitelisted', function() {
+        adwords.options.whitelist = ['danny mcbride is funny'];
+        analytics.track('danny mcbride is funny', { revenue: 90 });
+        analytics.calledOnce(window.google_trackConversion);
+        analytics.deepEqual(window.google_trackConversion.args[0], [{
+          google_conversion_id: options.conversionId,
+          google_custom_params: { revenue: 90 },
+          google_remarketing_only: true
+        }]);
+      });
+
       it('should send both conversion and remarketing tag if remarketing is true', function() {
         adwords.options.remarketing = true;
         analytics.track('login', { revenue: 90, hello: 'foo' });
@@ -197,6 +208,13 @@ describe('AdWords', function() {
           google_custom_params: { hello: 'foo' },
           google_remarketing_only: true
         }]);
+      });
+
+      it('should not double send remarketing tag as a standalone if it was already sent with conversion tag', function() {
+        adwords.options.remarketing = true;
+        analytics.track('login', { revenue: 90, hello: 'foo' });
+        // It would be called three times if it sent duplicate
+        analytics.calledTwice(window.google_trackConversion);
       });
     });
   });

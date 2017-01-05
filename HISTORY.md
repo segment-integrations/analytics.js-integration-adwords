@@ -1,4 +1,10 @@
 
+2.4.0 / 2017-01-05
+==================
+
+  * Support sending standalone Remarketing Tags 
+
+
 2.3.0 / 2016-11-16
 ==================
 
