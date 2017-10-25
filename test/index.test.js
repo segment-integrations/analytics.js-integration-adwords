@@ -13,16 +13,25 @@ describe('AdWords', function() {
     conversionId: 978352801,
     labelMap: [
       {
-        event: 'signup',
-        label: '-kGkCJ_TsgcQofXB0gM'
+        key: 'signup',
+        value: {
+          eventName: 'signup',
+          label: '-kGkCJ_TsgcQofXB0gM'
+        }
       },
       {
-        event: 'login',
-        label: 'QbThCM_zogcQofXB0gM'
+        key: 'login',
+        value: {
+          eventName: 'login',
+          label: 'QbThCM_zogcQofXB0gM'
+        }
       },
       {
-        event: 'play',
-        label: 'b91fc77f'
+        key: 'play',
+        value: {
+          eventName: 'play',
+          label: 'b91fc77f'
+        }
       }
     ]
   };
@@ -45,7 +54,9 @@ describe('AdWords', function() {
   it('should have the correct settings', function() {
     analytics.compare(AdWords, integration('AdWords')
       .option('conversionId', '')
-      .option('remarketing', false));
+      .option('remarketing', false)
+      .option('whitelist', [])
+      .option('labelMap', []));
   });
 
   describe('loading', function() {
@@ -120,7 +131,7 @@ describe('AdWords', function() {
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
-          google_conversion_label: options.labelMap[0].label,
+          google_conversion_label: options.labelMap[0].value.label,
           google_conversion_value: 0,
           google_remarketing_only: false
         });
@@ -129,20 +140,30 @@ describe('AdWords', function() {
       it('should use mapping specific IDs if provided', function() {
         adwords.options.labelMap = [
           {
-            event: 'signup',
-            label: '-kGkCJ_TsgcQofXB0gM',
-            conversionId: 431
+            key: 'signup',
+            value: {
+              eventName: 'signup',
+              label: '-kGkCJ_TsgcQofXB0gM',
+              conversionId: 431
+            }
           },
           {
-            event: 'login',
-            label: 'QbThCM_zogcQofXB0gM',
-            conversionId: 367
+            key: 'login',
+            value: {
+              eventName: 'login',
+              label: 'QbThCM_zogcQofXB0gM',
+              conversionId: 23
+            }
           },
           {
-            event: 'play',
-            label: 'b91fc77f',
-            conversionId: 109
-          }];
+            key: 'play',
+            value: {
+              eventName: 'play',
+              label: 'b91fc77f',
+              conversionId: 4512
+            }
+          }
+        ];
         analytics.track('signup', {});
         analytics.called(window.google_trackConversion, {
           google_conversion_id: 431,
@@ -150,14 +171,14 @@ describe('AdWords', function() {
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
-          google_conversion_label: options.labelMap[0].label,
+          google_conversion_label: options.labelMap[0].value.label,
           google_conversion_value: 0,
           google_remarketing_only: false
         });
       });
 
       it('should use whitelisted event-specific ID when provided', function() {
-        adwords.options.whitelist = { 'danny mcbride is funny': 4879235 };
+        adwords.options.whitelist = [{ value: { eventName: 'danny mcbride is funny', conversionIds: [4879235] } }];
         analytics.track('danny mcbride is funny', { revenue: 90 });
         analytics.calledOnce(window.google_trackConversion);
         analytics.deepEqual(window.google_trackConversion.args[0], [{
@@ -165,7 +186,7 @@ describe('AdWords', function() {
           google_custom_params: { revenue: 90 },
           google_remarketing_only: true
         }]);
-      })
+      });
 
       it('should send revenue', function() {
         analytics.track('login', { revenue: 90 });
@@ -175,7 +196,7 @@ describe('AdWords', function() {
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
-          google_conversion_label: options.labelMap[1].label,
+          google_conversion_label: options.labelMap[1].value.label,
           google_conversion_value: 90,
           google_remarketing_only: false
         });
@@ -190,7 +211,7 @@ describe('AdWords', function() {
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
-          google_conversion_label: options.labelMap[1].label,
+          google_conversion_label: options.labelMap[1].value.label,
           google_conversion_value: 90,
           google_remarketing_only: false
         });
@@ -206,14 +227,14 @@ describe('AdWords', function() {
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
-          google_conversion_label: options.labelMap[1].label,
+          google_conversion_label: options.labelMap[1].value.label,
           google_conversion_value: 90,
           google_remarketing_only: false
         }]);
       });
 
       it('should send only the remarketing tag if no conversions are mapped but is whitelisted', function() {
-        adwords.options.whitelist = { 'danny mcbride is funny': null };
+        adwords.options.whitelist = [{ value: { eventName: 'danny mcbride is funny', conversionIds: [] } }];
         analytics.track('danny mcbride is funny', { revenue: 90 });
         analytics.calledOnce(window.google_trackConversion);
         analytics.deepEqual(window.google_trackConversion.args[0], [{
@@ -233,7 +254,7 @@ describe('AdWords', function() {
           google_conversion_language: 'en',
           google_conversion_format: '3',
           google_conversion_color: 'ffffff',
-          google_conversion_label: options.labelMap[1].label,
+          google_conversion_label: options.labelMap[1].value.label,
           google_conversion_value: 90,
           google_remarketing_only: false
         }]);
