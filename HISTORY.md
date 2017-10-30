@@ -1,4 +1,10 @@
 
+2.5.1 / 2017-10-30
+==================
+
+  * tag bump
+  * Merge pull request #16 from segment-integrations/adwords-multiple-ids
+
 2.5.0 / 2017-10-30
 ==================
 
