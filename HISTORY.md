@@ -1,4 +1,19 @@
 
+2.5.0 / 2017-10-30
+==================
+
+  * small change
+  * removed 'each' library
+  * removed legacy code
+  * pr revisions
+  * tabbing
+  * merged options
+  * pr revisions
+  * added proper defaults
+  * initial commit
+  * Bump a.js-int-tester version to ^3.1.0 (#15)
+  * Pin karma, karma-mocha dev dependencies (#14)
+
 2.4.0 / 2017-01-05
 ==================
 
