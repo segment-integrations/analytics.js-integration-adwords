@@ -1,4 +1,9 @@
 
+2.5.0 / 2017-10-30
+==================
+
+  * Merge pull request #16 from segment-integrations/adwords-multiple-ids
+
 2.4.0 / 2017-01-05
 ==================
 
