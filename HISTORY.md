@@ -1,4 +1,36 @@
 
+2.5.1 / 2017-10-30
+==================
+
+  * tag bump
+  * Merge pull request #16 from segment-integrations/adwords-multiple-ids
+
+2.5.0 / 2017-10-30
+==================
+
+  * Merge pull request #16 from segment-integrations/adwords-multiple-ids
+
+2.4.0 / 2017-01-05
+==================
+
+  * Support sending standalone Remarketing Tags 
+
+
+2.3.0 / 2016-11-16
+==================
+
+  * Support Dynamic Remarketing Tags
+
+2.2.0 / 2016-11-15
+==================
+
+  * Prevent Adwords from crashing due to adblockers
+
+2.1.1 / 2016-09-22
+==================
+
+  * Revert "Dynamic remarketing"
+
 2.1.0 / 2016-09-15
 ==================
 
